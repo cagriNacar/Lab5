@@ -1,0 +1,119 @@
+namespace Lab5
+{
+    class Product
+    {
+        public string ProductCode { get; init; }
+        public string name;
+        
+        public string Name { get; set; }
+
+        private double price;
+
+        public double Price
+        {
+            get { return price; }
+            set
+            {
+                if (value <= 0)
+                {
+
+
+                    Console.WriteLine("Invalid Input.");
+                    price = 1.0;
+
+                }
+                else
+                {
+                    
+                    price = value;
+                }
+            }
+        }
+            public int Stock { get; private set; }
+
+        public Product(string productCode, string name, double price,int stock)
+        {
+            ProductCode = productCode;
+            Name = name;
+            Price = price;
+            Stock = stock;
+
+
+        }
+
+        public void Restock(int amount)
+        {
+            if (amount > 0) 
+            {
+                Stock += amount;
+            }
+
+
+            
+
+        }
+
+        public void Info()
+        {
+            Console.WriteLine($"[{ProductCode}] {Name} - {Price} (Stock: {Stock})");
+        }
+
+
+
+    }
+
+
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            Product[] products = new Product[4];
+
+            products[0] = new Product("P101","Wireless Mouse",25.50,15);
+            products[1] = new Product("P102", "Mechanical Keyboard", 50.00, 10);
+            products[2] = new Product("P103", "USB-C Cable",1.00, 50);
+            products[3] = new Product("P104", "Gaming Monitor", 220, 5);
+
+            foreach (Product p in products)
+            {
+                p.Info();
+            }
+
+            Console.WriteLine( );
+
+            products[0].Restock(12);
+            products[0].Info();
+
+            double[] arr = new double[4];
+
+            for(int i = 0; i < 4; i++)
+            {
+                arr[i] = products[i].Price;
+            }
+            Console.WriteLine();
+            Console.WriteLine();
+
+            Console.WriteLine("Maximum Price " +arr.Min());
+            Console.WriteLine("Minimum Price " + arr.Max());
+            Console.WriteLine("Sum of Prices "+ arr.Sum());
+            Console.WriteLine($"Average: {arr.Average():F2}");
+            Console.WriteLine(arr.Count(g => g >= 50));
+
+            double[] copy = (double[])arr.Clone();
+            Array.Sort(copy);
+
+            double target = 15.00;
+            int index  = Array.BinarySearch(copy, target);
+
+            if (index >= 0)
+            {
+                Console.WriteLine($"Price {target:F2} at index {index}");
+            }
+            else
+            {
+                Console.WriteLine("Price not found");
+            }
+
+        }
+    }
+}
